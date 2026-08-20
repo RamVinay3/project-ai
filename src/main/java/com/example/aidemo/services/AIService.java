@@ -6,6 +6,7 @@ import com.example.aidemo.DTO.responses.Response;
 import com.example.aidemo.tools.DateTimeTools;
 import com.example.aidemo.tools.EmailTools;
 import lombok.RequiredArgsConstructor;
+import org.springframework.ai.chat.cache.semantic.SemanticCache;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.ChatClientResponse;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
@@ -16,6 +17,7 @@ import org.springframework.ai.document.Document;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +28,7 @@ public class AIService {
     private final ChatMemory chatMemory;
     private final EmailTools emailTools;
     private final DocumentSearch documentSearch;
-
+    private final SemanticCache semanticCache;
 
     public String buildUserContext(UserContext user) {
 
@@ -100,6 +102,10 @@ public class AIService {
 
     public String ask(String question){
 
+
+
+
+
         List<Document> docs = this.documentSearch.search(question);
 
         String context = docs.stream().map(Document::getText).collect(Collectors.joining("\n\n"));
@@ -121,6 +127,45 @@ public class AIService {
                     %s
                     """.formatted(context, question)).call().content();
 
+    }
+
+    public String askCache(String question){
+        //1.embeds question , 2. do a redis similarity search , 3.checks if similarity > threshold
+        var cached = semanticCache.get(question);
+
+        //check if it is hit ( if question is available)
+        if(cached.isPresent()){
+            System.out.println("Hit from cache");
+            return cached.get().getResult().getOutput().getText();
+        }
+
+        List<Document> docs = this.documentSearch.search(question);
+
+        String context = docs.stream().map(Document::getText).collect(Collectors.joining("\n\n"));
+
+
+        var response = chatClient.prompt().system("""
+                    You are a helpful assistant.
+
+                    Answer the user's question using only
+                    the provided context.
+
+                    If the answer is not present in the context,
+                    say that you don't have enough information.
+                    """).
+                user("""
+                    Context:
+                    %s
+
+                    Question:
+                    %s
+                    """.formatted(context, question)).call().chatResponse();
+
+
+        //store in cache
+        semanticCache.set(question, response, Duration.ofDays(30));//since I am gonna use the  for resume static data can have longer times.
+
+        return response.getResult().getOutput().getText();
     }
 
 

@@ -44,7 +44,7 @@ private final AIService aiservice;
 
     @PostMapping("/ask")
     public String ask(@RequestBody ChatDTO req ){
-        return this.aiservice.ask(req.getQuestion());
+        return this.aiservice.askCache(req.getQuestion());
     }
 
 }

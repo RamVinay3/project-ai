@@ -1,5 +1,7 @@
 package com.example.aidemo.config;
 
+import org.springframework.ai.chat.cache.semantic.SemanticCache;
+import org.springframework.ai.chat.cache.semantic.SemanticCacheAdvisor;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.google.genai.GoogleGenAiChatModel;
@@ -41,6 +43,12 @@ public class AiModelConfig {
     @Profile("local")
     public EmbeddingModel ollamaEmbeddingModel(OllamaEmbeddingModel ollamaEmbeddingModel){
         return ollamaEmbeddingModel;
+    }
+
+
+    @Bean
+    public SemanticCacheAdvisor redisCacheAdvisor(SemanticCache semanticCache){
+        return SemanticCacheAdvisor.builder().cache(semanticCache).build();
     }
 
 

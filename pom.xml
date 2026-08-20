@@ -52,13 +52,31 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
+
+		<!-- to load env file-->
 		<dependency>
 			<groupId>io.github.cdimascio</groupId>
 			<artifactId>dotenv-java</artifactId>
 			<version>3.0.0</version>
 		</dependency>
 
+		<!-- Add Gemini / Google GenAI Starter -->
+		<dependency>
+			<groupId>org.springframework.ai</groupId>
+			<artifactId>spring-ai-starter-model-google-genai</artifactId>
+		</dependency>
 
+
+		<!-- Gemini Embeddings -->
+		<dependency>
+			<groupId>org.springframework.ai</groupId>
+			<artifactId>spring-ai-starter-model-google-genai-embedding</artifactId>
+		</dependency>
+
+
+
+
+		<!-- Ollama gives both emebeddings and Model -->
 		<dependency>
 			<groupId>org.springframework.ai</groupId>
 			<artifactId>spring-ai-starter-model-ollama</artifactId>
@@ -69,6 +87,18 @@
 			<artifactId>spring-ai-model</artifactId>
 		</dependency>
 
+		<!-- Redis Vector Store for caching -->
+		<dependency>
+			<groupId>org.springframework.ai</groupId>
+			<artifactId>spring-ai-redis-semantic-cache</artifactId>
+		</dependency>
+		<!-- to create redis client Semtantic Cache bean-->
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
+
+		<!-- for the oracle to use vectorStore to store embeddings-->
 		<dependency>
 			<groupId>org.springframework.ai</groupId>
 			<artifactId>spring-ai-starter-vector-store-oracle</artifactId>
@@ -93,25 +123,12 @@
 			<artifactId>ojdbc11</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+
 		<!-- to use vector store , jdbc connection is mandatory but vector store don't let us code much -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
-
-		<!-- Add Gemini / Google GenAI Starter -->
-		<dependency>
-			<groupId>org.springframework.ai</groupId>
-			<artifactId>spring-ai-starter-model-google-genai</artifactId>
-		</dependency>
-
-
-		<!-- Gemini Embeddings -->
-		<dependency>
-			<groupId>org.springframework.ai</groupId>
-			<artifactId>spring-ai-starter-model-google-genai-embedding</artifactId>
-		</dependency>
-
 
 
 	</dependencies>

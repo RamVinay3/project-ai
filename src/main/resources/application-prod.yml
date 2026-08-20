@@ -1,0 +1,23 @@
+spring:
+  ai:
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY}
+
+        chat:
+          model: ${GEMINI_MODEL_NAME}
+          temperature: 0.4
+
+        embedding:
+          api-key: ${GEMINI_API_KEY}
+          text:
+            model: ${GEMINI_EMBEDDING_MODEL}
+            dimensions: ${GEMINI_EMBEDDING_DIMENSIONS}
+
+    vectorstore:
+      oracle:
+        index-type: IVF
+        distance-type: COSINE
+        table-name: SPRING_AI_VECTORS
+        dimensions: ${GEMINI_EMBEDDING_DIMENSIONS}
+        initialize-schema: true

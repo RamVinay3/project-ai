@@ -2,31 +2,14 @@ spring:
   application:
     name: aidemo
 
+
   profiles:
-    active: local
+    active: prod
 
   datasource:
     url: ${DB_BASE_URL}
     username: ${DB_USER_NAME}
     password: ${DB_PASSWORD}
-
-  ai:
-    ollama:
-      base-url: ${OLLAMA_BASE_URL} # Default Ollama address
-      chat:
-        model:   ${OLLAMA_CHAT_MODEL}    # Model name you pulled in Ollama
-        temperature: 0.4
-      embedding:
-        options:
-          model: ${OLLAMA_EMBEDDING_MODEL}
-    # Vector Store configuration (Belongs under spring.ai)
-    vectorstore:
-      oracle:
-        index-type: IVF
-        distance-type: COSINE
-        table-name: SPRING_AI_VECTORS
-        dimensions: 384
-        initialize-schema: true
 
   mail:
     host: ${MAIL_HOST}

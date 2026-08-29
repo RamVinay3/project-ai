@@ -6,11 +6,6 @@ spring:
   profiles:
     active: prod
 
-  datasource:
-    url: ${DB_BASE_URL}
-    username: ${DB_USER_NAME}
-    password: ${DB_PASSWORD}
-
   mail:
     host: ${MAIL_HOST}
     port: ${MAIL_PORT}
@@ -26,19 +21,3 @@ spring:
           connectiontimeout: 5000
           timeout: 3000
           writetimeout: 5000
-
-  data:
-    redis:
-      host: ${REDIS_HOST}
-      port: ${REDIS_PORT}
-
-  ai:
-    vectorstore:
-      redis:
-        semantic-cache:
-          enabled: true
-          host: ${REDIS_HOST}
-          port: ${REDIS_PORT}
-          similarity-threshold: ${REDIS_SIMILARITY_SEARCH_THRESHHOLD}
-          index-name: qa-semantic-cache #redis use this name to lookup the schema
-          prefix: "qa-cache:"  #question-answer cache for every id it will be like this

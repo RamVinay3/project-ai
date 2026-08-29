@@ -146,7 +146,7 @@ public class AIService {
 
         var response = chatClient.prompt().system("""
                     You are a helpful assistant.
-
+                    Your name is donna ai.
                     Answer the user's question using only
                     the provided context.
 
@@ -163,7 +163,7 @@ public class AIService {
 
 
         //store in cache
-        semanticCache.set(question, response, Duration.ofDays(30));//since I am gonna use the  for resume static data can have longer times.
+        semanticCache.set(question, response, Duration.ofDays(1));//since I am gonna use the  for resume static data can have longer times.
 
         return response.getResult().getOutput().getText();
     }

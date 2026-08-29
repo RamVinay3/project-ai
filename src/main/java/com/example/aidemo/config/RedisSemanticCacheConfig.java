@@ -6,6 +6,7 @@ import org.springframework.ai.vectorstore.redis.cache.semantic.DefaultSemanticCa
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import redis.clients.jedis.DefaultJedisClientConfig;
 import redis.clients.jedis.RedisClient;
 
 @Configuration
@@ -14,10 +15,18 @@ public class RedisSemanticCacheConfig {
     @Bean
     public RedisClient redisClient(
             @Value("${spring.data.redis.host}") String host,
-            @Value("${spring.data.redis.port}") int port) {
+            @Value("${spring.data.redis.port}") int port,
+            @Value("${spring.data.redis.username}") String username,
+            @Value("${spring.data.redis.password}") String password) {
+
+        DefaultJedisClientConfig config = DefaultJedisClientConfig.builder().
+                                            user(username).
+                                            password(password).
+                                            build();
 
         return RedisClient.builder()
-                .hostAndPort(host, port)
+                .hostAndPort(host, port).
+                clientConfig(config)
                 .build();
     }
 

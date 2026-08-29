@@ -21,3 +21,21 @@ spring:
         table-name: SPRING_AI_VECTORS
         dimensions: ${GEMINI_EMBEDDING_DIMENSIONS}
         initialize-schema: true
+      redis:
+        semantic-cache:
+          enabled: true
+          host: ${PROD_REDIS_HOST}
+          port: ${PROD_REDIS_PORT}
+          similarity-threshold: ${REDIS_SIMILARITY_SEARCH_THRESHHOLD}
+          index-name: qa-semantic-cache #redis use this name to lookup the schema
+          prefix: "qa-cache:"  #question-answer cache for every id it will be like this
+  data:
+    redis:
+      host: ${PROD_REDIS_HOST}
+      port: ${PROD_REDIS_PORT}
+      username: ${PROD_REDIS_USERNAME}
+      password: ${PROD_REDIS_PASSWORD}
+  datasource:
+    url: ${PROD_DB_BASE_URL}
+    username: ${PROD_DB_USER_NAME}
+    password: ${PROD_DB_PASSWORD}

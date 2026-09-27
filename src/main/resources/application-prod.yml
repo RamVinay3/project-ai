@@ -29,6 +29,7 @@ spring:
           similarity-threshold: ${REDIS_SIMILARITY_SEARCH_THRESHHOLD}
           index-name: qa-semantic-cache #redis use this name to lookup the schema
           prefix: "qa-cache:"  #question-answer cache for every id it will be like this
+          initialize-schema: true
   data:
     redis:
       host: ${PROD_REDIS_HOST}
